@@ -18,6 +18,7 @@ import 'package:unpub/src/package_store.dart';
 import 'utils.dart';
 import 'static/index.html.dart' as index_html;
 import 'static/main.dart.js.dart' as main_dart_js;
+import 'static/style.dart.css.dart' as style_dart_css;
 
 part 'app.g.dart';
 
@@ -294,7 +295,7 @@ class App {
       if (changelogFile != null) {
         changelog = utf8.decode(changelogFile.content);
       }
-
+      _postFeishu(package.name, version, changelog);
       // Write package meta to database
       var unpubVersion = UnpubVersion(
         pubspec['version'] as String,
@@ -305,7 +306,9 @@ class App {
         email,
         DateTime.now(),
       );
+
       await metaStore.addVersion(name, unpubVersion);
+
 
       // TODO: Upload docs
       return shelf.Response.found(req.requestedUri
@@ -316,6 +319,92 @@ class App {
           .resolve('/api/packages/versions/newUploadFinish?error=$err'));
     }
   }
+
+  _postFeishu(String package, String version, String changelog) async{
+    var httpClient = new HttpClient();
+
+    String result;
+    try {
+      var url = "https://open.feishu.cn/open-apis/bot/v2/hook/a3e0de5a-4fad-4763-9e40-382faa460865";
+      var request = await httpClient.postUrl(Uri.parse(url));
+
+      // 设置请求头
+      /*
+        request.headers.set("loginSource", "IOS");
+        request.headers.set("useVersion", "3.1.0");
+        request.headers.set("isEncoded", "1");
+        // Content-Type大小写都ok
+        request.headers.set('content-type', 'application/json');
+  */
+
+      // 添加请求体
+      // Map jsonMap = {'shopperId': 9356,'machineId':5117,'orderType':2,'orderId':108};
+
+      String tmpdis = changelog.split("##")[1];
+      String dis = tmpdis.split("*")[1];
+      dis = dis.replaceAll(" ", "");
+      dis = dis.replaceAll("\n", "");
+      Map<String, dynamic> map = new Map();
+      Map<String, dynamic> cardmap = new Map();
+      Map<String, dynamic> configmap = new Map();
+      Map<String, dynamic> headermap = new Map();
+      configmap["wide_screen_mode"] = true;
+      configmap["enable_forward"] = true;
+
+      cardmap["config"] = configmap;
+      cardmap["elements"] = [{
+        "tag": "div",
+        "text": {
+          "content": '**插件:**$package\n\n**版本:**$version\n\n**版本描述:**$dis。',
+          "tag": "lark_md"
+        }
+      }, {
+        "actions": [{
+          "tag": "button",
+          "text": {
+            "content": "更多插件介绍 :玫瑰:",
+            "tag": "lark_md"
+          },
+          "url": "http://pub.lizhi.fm/packages/$package",
+          "type": "default",
+          "value": {}
+        }],
+        "tag": "action"
+      }];
+
+      headermap["title"] = {
+        "content": "插件更新",
+        "tag": "plain_text"
+      };
+      cardmap["header"] = headermap;
+
+      map["msg_type"] = "interactive";
+      map["card"] = cardmap;
+
+      request.add(utf8.encode(json.encode(map)));
+
+      HttpClientResponse response = await request.close();
+      String responseBody = await response.transform(utf8.decoder).join();
+      print("statusCode----${response.statusCode}");
+
+      if (response.statusCode == HttpStatus.ok) {
+        print('请求成功');
+        print(response.headers);//打印头部信息
+        print("post------$responseBody");
+
+        result = 'HttpStatus.ok';
+
+      } else {
+        result = 'Error getting IP address:\nHttp status ${response.statusCode}';
+      }
+
+    } catch (exception) {
+      result = 'Failed getting IP address';
+    }
+
+  }
+
+
 
   @Route.get('/api/packages/versions/newUploadFinish')
   Future<shelf.Response> uploadFinish(shelf.Request req) async {
@@ -467,6 +556,12 @@ class App {
   Future<shelf.Response> mainDartJs(shelf.Request req) async {
     return shelf.Response.ok(main_dart_js.content,
         headers: {HttpHeaders.contentTypeHeader: 'text/javascript'});
+  }
+
+  @Route.get('/style.dart.css')
+  Future<shelf.Response> styleDartCss(shelf.Request req) async {
+    return shelf.Response.ok(style_dart_css.content,
+        headers: {HttpHeaders.contentTypeHeader: 'text/css'});
   }
 
   String _getBadgeUrl(String label, String message, String color,
