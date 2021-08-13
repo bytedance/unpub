@@ -5,6 +5,11 @@
 
 Unpub is a self-hosted private Dart Pub server for Enterprise, with a simple web interface to search and view packages information.
 
+## Fix
+
+You need to upload the lib/src/static/style.css file to your server, and then upload the file in lib/src/static/index.html.dart http://xxxxx/style.css Just change to the style.css address of your server(你需要将lib/src/static/style.css文件上传到自己的服务器,然后将lib/src/static/index.html.dart里面的http://xxxxx/style.css换成你服务器的style.css的地址即可)
+
+
 ## Screenshots
 
 ![Screenshot](https://raw.githubusercontent.com/bytedance/unpub/master/assets/screenshot.png)
