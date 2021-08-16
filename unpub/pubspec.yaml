@@ -30,3 +30,4 @@ dev_dependencies:
   json_serializable: ^5.0.0
   shelf_router_generator: ^1.0.1
   dart_style: ^2.0.3
+  chunked_stream: ^1.4.1

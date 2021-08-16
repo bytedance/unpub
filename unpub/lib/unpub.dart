@@ -4,3 +4,4 @@ export 'src/package_store.dart';
 export 'src/file_store.dart';
 export 'src/app.dart';
 export 'src/models.dart';
+export 'src/tree_file_store.dart';
