@@ -6,19 +6,15 @@ import 'package_store.dart';
 
 class FileStore extends PackageStore {
   String baseDir;
-  bool asTree;
+  String Function(String name, String version)? getFilePath;
 
-  FileStore(this.baseDir, {this.asTree: false});
+  FileStore(this.baseDir,
+      {String Function(String name, String version)? this.getFilePath});
 
   File _getTarballFile(String package, String version) {
-    if (asTree) {
-      var grp = package[0];
-      var subgrp = package.substring(0, 2);
-      return File(path.join(baseDir, 'packages', grp, subgrp, package,
-          'versions', '$package-$version.tar.gz'));
-    }
-
-    return File(path.join(baseDir, '$package-$version.tar.gz'));
+    return getFilePath == null
+        ? File(path.join(baseDir, '$package-$version.tar.gz'))
+        : File(getFilePath!(package, version));
   }
 
   @override

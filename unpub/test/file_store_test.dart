@@ -12,8 +12,8 @@ const TEST_PKG_DATA = [
 ];
 
 main() {
-  test('upload-download-flat-file', () async {
-    var baseDir = _setup_fixture('upload-download-flat-file');
+  test('upload-download-default-path', () async {
+    var baseDir = _setup_fixture('upload-download-default-path');
     var store = unpub.FileStore(baseDir.path);
     await store.upload('test_package', '1.0.0', TEST_PKG_DATA);
     var pkg2 = await readByteStream(store.download('test_package', '1.0.0'));
@@ -23,9 +23,10 @@ main() {
         isTrue);
   });
 
-  test('upload-download-as-tree', () async {
-    var baseDir = _setup_fixture('upload-download-as-tree');
-    var store = unpub.FileStore(baseDir.path, asTree: true);
+  test('upload-download-custom-path', () async {
+    var baseDir = _setup_fixture('upload-download-custom-path');
+    var store =
+        unpub.FileStore(baseDir.path, getFilePath: newFilePathFunc(baseDir));
     await store.upload('test_package', '1.0.0', TEST_PKG_DATA);
     var pkg2 = await readByteStream(store.download('test_package', '1.0.0'));
     expect(pkg2, TEST_PKG_DATA);
@@ -37,7 +38,16 @@ main() {
   });
 }
 
-Directory _setup_fixture(final String name) {
+String Function(String, String) newFilePathFunc(Directory baseDir) {
+  return (String package, String version) {
+    var grp = package[0];
+    var subgrp = package.substring(0, 2);
+    return path.join(baseDir.path, 'packages', grp, subgrp, package, 'versions',
+        '$package-$version.tar.gz');
+  };
+}
+
+_setup_fixture(final String name) {
   var baseDir =
       Directory(path.absolute('test', 'fixtures', 'file_store', name));
   if (baseDir.existsSync()) {
