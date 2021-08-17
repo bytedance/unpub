@@ -14,7 +14,7 @@ class FileStore extends PackageStore {
   File _getTarballFile(String package, String version) {
     return getFilePath == null
         ? File(path.join(baseDir, '$package-$version.tar.gz'))
-        : File(getFilePath!(package, version));
+        : File(path.join(baseDir, getFilePath!(package, version)));
   }
 
   @override

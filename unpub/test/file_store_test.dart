@@ -26,7 +26,7 @@ main() {
   test('upload-download-custom-path', () async {
     var baseDir = _setup_fixture('upload-download-custom-path');
     var store =
-        unpub.FileStore(baseDir.path, getFilePath: newFilePathFunc(baseDir));
+        unpub.FileStore(baseDir.path, getFilePath: newFilePathFunc());
     await store.upload('test_package', '1.0.0', TEST_PKG_DATA);
     var pkg2 = await readByteStream(store.download('test_package', '1.0.0'));
     expect(pkg2, TEST_PKG_DATA);
@@ -38,11 +38,11 @@ main() {
   });
 }
 
-String Function(String, String) newFilePathFunc(Directory baseDir) {
+String Function(String, String) newFilePathFunc() {
   return (String package, String version) {
     var grp = package[0];
     var subgrp = package.substring(0, 2);
-    return path.join(baseDir.path, 'packages', grp, subgrp, package, 'versions',
+    return path.join('packages', grp, subgrp, package, 'versions',
         '$package-$version.tar.gz');
   };
 }
