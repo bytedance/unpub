@@ -319,8 +319,6 @@ class App {
     }
   }
 
-
-
   @Route.get('/api/packages/versions/newUploadFinish')
   Future<shelf.Response> uploadFinish(shelf.Request req) async {
     var error = req.requestedUri.queryParameters['error'];
