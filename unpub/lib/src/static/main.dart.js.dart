@@ -13728,7 +13728,7 @@ p=G.cf(H.d(a9.V(C.h,q),"\$iaT"),H.d(a9.V(C.i,q),"\$iaW"),a1,a0.dx)
 a0.f=new G.bA(p)
 o=T.B(a8,a0.dx,"img")
 T.an(o,"alt","dart pub logo")
-T.an(o,"src","https://pub.dev/static/img/pub-dev-logo-2x.png?hash=umitaheu8hl7gd3mineshk2koqfngugi")
+T.an(o,"src","https://pub.flutter-io.cn/static/img/pub-dev-logo.svg?hash=40fqenbgtbjcekk60vd5dg5mr22bv99t")
 a0.w(o)
 n=T.as(a8,r)
 a0.p(n,"_flex-space")
@@ -14360,7 +14360,7 @@ T.an(s,"rel","nofollow")
 o.E(o.fr)
 s=T.B(m,o.fr,"img")
 o.fx=s
-T.an(s,"src","https://pub.dev/static/img/ic_drive_document_black_24dp.svg")
+T.an(s,"src","https://pub.dev/static/img/description-24px.svg?hash=cspe288fpcu1htv0l4fsqhkc4uemgqbc")
 o.w(o.fx)
 s=H.d(T.B(m,l,n),"\$it")
 o.p(s,"archive")
@@ -14370,7 +14370,7 @@ o.fy=s
 o.E(s)
 s=T.B(m,o.fy,"img")
 o.go=s
-T.an(s,"src","https://pub.dev/static/img/ic_get_app_black_24dp.svg")
+T.an(s,"src","https://pub.dev/static/img/vertical_align_bottom-24px.svg?hash=pfquum5c4t26ffikkqj2d06di34atmr6")
 o.w(o.go)
 s=o.dy
 p=o.x.e;(s&&C.l).ao(s,"click",o.a6(p.gaP(p),W.w,W.aG))
@@ -14397,7 +14397,7 @@ if(i!==t){o.fr.title=t
 o.Q=t}s=O.e3(n,k.b.a," ",h,"")
 i=o.ch
 if(i!==s){o.fx.alt=s
-o.ch=s}r=O.e3("/packages/",k.b.a,"-",h,".tar.gz")
+o.ch=s}r=O.e3("/packages/",k.b.a,"/versions/",h,".tar.gz")
 i=o.cx
 if(i!==r){o.fy.href=\$.b0.c.aG(r)
 o.cx=r}q=O.e3(m,k.b.a," ",h,l)

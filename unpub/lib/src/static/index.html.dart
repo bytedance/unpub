@@ -11,7 +11,7 @@ const content = """<!DOCTYPE html>
     />
     <link
       rel="stylesheet"
-      href="https://pub.dev/static/css/style.css?hash=06qjiu76rbcjpj7gcqf4e7fagtcf1dsh"
+      href="style.dart.css"
     />
     <link
       rel="stylesheet"

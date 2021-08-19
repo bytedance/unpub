@@ -19,6 +19,7 @@ import 'package:unpub/src/package_store.dart';
 import 'utils.dart';
 import 'static/index.html.dart' as index_html;
 import 'static/main.dart.js.dart' as main_dart_js;
+import 'static/style.dart.css.dart' as style_dart_css;
 
 part 'app.g.dart';
 
@@ -301,7 +302,6 @@ class App {
       if (changelogFile != null) {
         changelog = utf8.decode(changelogFile.content);
       }
-
       // Write package meta to database
       var unpubVersion = UnpubVersion(
         pubspec['version'] as String?,
@@ -312,7 +312,9 @@ class App {
         email,
         DateTime.now(),
       );
+
       await metaStore.addVersion(name, unpubVersion);
+
 
       // TODO: Upload docs
       return shelf.Response.found(req.requestedUri
@@ -475,6 +477,12 @@ class App {
   Future<shelf.Response> mainDartJs(shelf.Request req) async {
     return shelf.Response.ok(main_dart_js.content,
         headers: {HttpHeaders.contentTypeHeader: 'text/javascript'});
+  }
+
+  @Route.get('/style.dart.css')
+  Future<shelf.Response> styleDartCss(shelf.Request req) async {
+    return shelf.Response.ok(style_dart_css.content,
+        headers: {HttpHeaders.contentTypeHeader: 'text/css'});
   }
 
   String _getBadgeUrl(String label, String message, String color,

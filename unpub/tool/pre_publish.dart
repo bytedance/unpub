@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:path/path.dart' as path;
 import 'package:dart_style/dart_style.dart';
 
-var files = ['index.html', 'main.dart.js'];
+var files = ['index.html', 'main.dart.js', 'style.dart.css'];
 
 main(List<String> args) {
   for (var file in files) {

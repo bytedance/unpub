@@ -1,7 +1,7 @@
 import 'package:unpub/unpub.dart' as unpub;
 
 main(List<String> args) async {
-  var basedir = '/path/to/basedir'; // Base directory to save pacakges
+  var basedir = './unpub-packages'; // Base directory to save pacakges
   var db = 'mongodb://localhost:27017/dart_pub'; // MongoDB uri
 
   var metaStore = unpub.MongoStore(db);
