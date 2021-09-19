@@ -97,8 +97,16 @@ class MyAwesomePackageStore extends unpub.PackageStore {
 var app = unpub.App(
   metaStore: MyAwesomeMetaStore(),
   packageStore: MyAwesomePackageStore(),
-)
+);
 ```
+
+## AWS Extras
+This package also includes AWS specific Package and Meta stores. 
+
+##### 1. [S3 File Storage](https://github.com/bytedance/unpub/blob/master/unpub/lib/unpub_aws/README.md#s3-file-storage)
+
+
+
 
 ## Badges
 

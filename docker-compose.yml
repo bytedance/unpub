@@ -1,0 +1,32 @@
+# This docker-compose file should be used for tests
+
+version: '3.1'
+
+services:
+
+  mongo:
+    image: mongo:4.2
+    restart: always
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_DATABASE: dart_pub_test
+
+  mock_s3:
+    image: adobe/s3mock
+    environment:
+      initialBuckets: 'dart-pub-test'
+    ports:
+      - "9090:9090"
+      - "9191:9191"
+
+#  mongo-express:
+#    image: mongo-express:0.49.0
+#    restart: always
+#    ports:
+#      - "8081:8081"
+#    environment:
+#      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+#      ME_CONFIG_MONGODB_ADMINPASSWORD: example
+#      ME_CONFIG_MONGODB_URL: mongodb://root:example@mongo:27017/
+
