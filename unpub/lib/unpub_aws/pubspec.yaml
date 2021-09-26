@@ -1,4 +1,5 @@
 name: unpub_aws
+publish_to: none
 
 environment:
   sdk: '>=2.12.0 <3.0.0'

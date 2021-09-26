@@ -15,30 +15,32 @@ class S3Store extends PackageStore {
   String? endpoint;
   AwsCredentials? credentials;
   Minio? minio;
-  final Map<String, String> _env = Map.from(Platform.environment);
+  Map<String, String>? environment;
 
   S3Store(this.bucketName,
       {this.region,
-      this.getObjectPath,
-      this.endpoint,
-      this.credentials,
-      this.minio}) {
+        this.getObjectPath,
+        this.endpoint,
+        this.credentials,
+        this.minio, this.environment}) {
+
+    final env = environment ?? Platform.environment;
 
     // Check for env vars or container credentials if none were provided.
-    credentials ??= AwsCredentials();
+    credentials ??= AwsCredentials(environment: env);
 
     // Use a supplied minio instance or create a default
     minio ??= Minio(
-      endPoint: endpoint ?? _env['AWS_S3_ENDPOINT'] ?? 's3.amazonaws.com',
-      region: region ?? _env['AWS_DEFAULT_REGION'],
+      endPoint: endpoint ?? env['AWS_S3_ENDPOINT'] ?? 's3.amazonaws.com',
+      region: region ?? env['AWS_DEFAULT_REGION'],
       accessKey: credentials!.awsAccessKeyId ?? '',
       secretKey: credentials!.awsSecretAccessKey ?? '',
     );
 
     // Check for a region or default region which is required
     if (region == null &&
-        (_env['AWS_DEFAULT_REGION'] == null ||
-            _env['AWS_DEFAULT_REGION']!.isEmpty)) {
+        (env['AWS_DEFAULT_REGION'] == null ||
+            env['AWS_DEFAULT_REGION']!.isEmpty)) {
       throw ArgumentError('Could not determine a default region for aws.');
     }
   }
