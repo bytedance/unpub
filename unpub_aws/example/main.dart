@@ -1,6 +1,6 @@
 import 'package:mongo_dart/mongo_dart.dart';
 import 'package:unpub/unpub.dart' as unpub;
-import 'package:unpub/unpub_aws/unpub_aws.dart' as unpub_aws;
+import 'package:unpub_aws/unpub_aws.dart' as unpub_aws;
 
 main(List<String> args) async {
   final db = Db('mongodb://localhost:27017/dart_pub_test');

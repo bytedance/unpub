@@ -4,9 +4,9 @@ import 'dart:io';
 
 import 'package:minio/minio.dart';
 import 'package:unpub/unpub.dart';
-import 'package:unpub/unpub_aws/lib/aws_credentials.dart';
+import 'package:unpub_aws/core/aws_credentials.dart';
 
-/// Use AWS S3 as a package store
+/// Use an AWS S3 Bucket as a package store
 class S3Store extends PackageStore {
   String Function(String name, String version)? getObjectPath;
 

@@ -1,12 +1,10 @@
 name: unpub_aws
-publish_to: none
 
 environment:
   sdk: '>=2.12.0 <3.0.0'
 
 dependencies:
-  unpub:
-    path: ../../
+  unpub: ^2.0.0
   minio: ^3.0.0
   http: ^0.13.3
 
@@ -17,3 +15,8 @@ dev_dependencies:
   mockito: ^5.0.16
   build_runner: ^2.1.2
   path: ^1.8.0
+  json_annotation: ^4.1.0
+
+dependency_overrides:
+  unpub:
+    path: ../unpub
