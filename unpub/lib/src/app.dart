@@ -200,7 +200,8 @@ class App {
     }
 
     if (packageStore.supportsDownloadUrl) {
-      return shelf.Response.found(packageStore.downloadUrl(name, version));
+      return shelf.Response.found(
+          await packageStore.downloadUrl(name, version));
     } else {
       return shelf.Response.ok(
         packageStore.download(name, version),

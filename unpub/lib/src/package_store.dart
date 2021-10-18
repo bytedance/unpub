@@ -1,7 +1,7 @@
 abstract class PackageStore {
   bool supportsDownloadUrl = false;
 
-  String downloadUrl(String name, String version) {
+  Future<String> downloadUrl(String name, String version) {
     throw 'downloadUri not implemented';
   }
 
