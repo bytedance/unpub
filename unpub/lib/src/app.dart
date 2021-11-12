@@ -30,7 +30,7 @@ class App {
   final PackageStore packageStore;
 
   /// upstream url, default: https://pub.dev
-  final String upstream;
+  final String? upstream;
 
   /// http(s) proxy to call googleapis (to get uploader email)
   final String? googleapisProxy;
@@ -75,6 +75,15 @@ class App {
       );
 
   http.Client? _googleapisClient;
+
+  shelf.Response _performUpStreamIfNeeded(String path) {
+    if (upstream == null) {
+      return shelf.Response.notFound('Not Found');
+    } else {
+      return shelf.Response.found(
+          Uri.parse(upstream!).resolve(path).toString());
+    }
+  }
 
   Future<String> _getUploaderEmail(shelf.Request req) async {
     if (overrideUploaderEmail != null) return overrideUploaderEmail!;
@@ -139,8 +148,7 @@ class App {
     var package = await metaStore.queryPackage(name);
 
     if (package == null) {
-      return shelf.Response.found(
-          Uri.parse(upstream).resolve('/api/packages/$name').toString());
+      return _performUpStreamIfNeeded('/api/packages/$name');
     }
 
     package.versions.sort((a, b) {
@@ -171,9 +179,7 @@ class App {
 
     var package = await metaStore.queryPackage(name);
     if (package == null) {
-      return shelf.Response.found(Uri.parse(upstream)
-          .resolve('/api/packages/$name/versions/$version')
-          .toString());
+      return _performUpStreamIfNeeded('/api/packages/$name/versions/$version');
     }
 
     var packageVersion =
@@ -190,9 +196,8 @@ class App {
       shelf.Request req, String name, String version) async {
     var package = await metaStore.queryPackage(name);
     if (package == null) {
-      return shelf.Response.found(Uri.parse(upstream)
-          .resolve('/packages/$name/versions/$version.tar.gz')
-          .toString());
+      return _performUpStreamIfNeeded(
+          '/packages/$name/versions/$version.tar.gz');
     }
 
     if (isPubClient(req)) {
