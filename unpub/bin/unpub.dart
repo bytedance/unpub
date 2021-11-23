@@ -27,8 +27,6 @@ main(List<String> args) async {
     exit(0);
   }
 
-  print('\nUsage:\n');
-
   var host = results['host'] as String?;
   var port = int.parse(results['port'] as String);
   var dbUri = results['database'] as String;
