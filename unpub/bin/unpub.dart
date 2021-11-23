@@ -11,17 +11,19 @@ main(List<String> args) async {
   parser.addOption('database',
       abbr: 'd', defaultsTo: 'mongodb://localhost:27017/dart_pub');
 
-  var results = parser.parse(args);
+  late ArgResults results;
+  try {
+    results = parser.parse(args);
+  } on FormatException catch (e) {
+    print(e);
+    print('\nUsage:\n');
+    print(parser.usage);
+    exit(1);
+  }
 
   var host = results['host'] as String?;
   var port = int.parse(results['port'] as String);
   var dbUri = results['database'] as String;
-
-  if (results.rest.isNotEmpty) {
-    print('Got unexpected arguments: "${results.rest.join(' ')}".\n\nUsage:\n');
-    print(parser.usage);
-    exit(1);
-  }
 
   final db = Db(dbUri);
   await db.open();
