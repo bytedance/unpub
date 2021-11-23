@@ -10,6 +10,7 @@ main(List<String> args) async {
   parser.addOption('port', abbr: 'p', defaultsTo: '4000');
   parser.addOption('database',
       abbr: 'd', defaultsTo: 'mongodb://localhost:27017/dart_pub');
+  parser.addFlag('help', negatable: false);
 
   late ArgResults results;
   try {
@@ -20,6 +21,13 @@ main(List<String> args) async {
     print(parser.usage);
     exit(1);
   }
+  if (results['help']) {
+    print('Usage:\n');
+    print(parser.usage);
+    exit(0);
+  }
+
+  print('\nUsage:\n');
 
   var host = results['host'] as String?;
   var port = int.parse(results['port'] as String);
