@@ -1,7 +1,9 @@
+import 'dart:async';
+
 abstract class PackageStore {
   bool supportsDownloadUrl = false;
 
-  Future<String> downloadUrl(String name, String version) {
+  FutureOr<String> downloadUrl(String name, String version) {
     throw 'downloadUri not implemented';
   }
 
