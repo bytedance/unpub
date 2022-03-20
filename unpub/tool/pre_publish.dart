@@ -8,6 +8,7 @@ main(List<String> args) {
     var content =
         File(path.absolute('unpub_web/build', file)).readAsStringSync();
     content = content.replaceAll('\\', '\\\\').replaceAll('\$', '\\\$');
-    content = 'const content="""$content""";';
+    content = 'const content = """$content""";\n';
+    File(path.absolute('unpub/lib/src/static', '${file}.dart')).writeAsStringSync(content);
   }
 }
