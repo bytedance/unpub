@@ -17,6 +17,7 @@ pipeline {
     AWS_ACCOUNT_ID = "583646779642"
     AWS_REGION = "eu-west-2"
     CLUSTER = "staging-uk-eks-k8s"
+    CLUSTER_FOLDER = "staging-uk-eks-k8s"
     TASK = "deploy"
     JENKINS_SERVICE_ACCOUNT = "jenkins"
     JENKINS_URL_SUPPORT_INSTANCE = "https://jenkins.devops.plentific.com/"
@@ -67,23 +68,35 @@ pipeline {
                 until \$success || [ \$attempts = 20 ]; do
                   let ++attempts;
                   git pull https://$GIT_USERNAME:$GIT_PASSWORD@github.com/plentific/devops-cd.git --rebase || echo "Don't need rebase";
-                  
-                  yq e '.spec.template.spec.containers[0].image = "${env.ECRURI}/${env.APP}:airflow-${env.GIT_COMMIT}"' -i helm/apps/airflow/statefulset-airflow.yaml
-                  yq e '.metadata.labels.deploy-commit = "${env.GIT_COMMIT}"' -i helm/apps/airflow/statefulset-airflow.yaml
-                  git add helm/apps/airflow/statefulset-airflow.yaml
-                  commit=\$(git commit -m "[${env.BUILD_NUMBER}] airflow -> ${env.APP}:${env.GIT_COMMIT}" || echo "No git commit needed")
+
+                  echo "BEFORE UPDATE"
+                  cat deployment/clusters/${env.CLUSTER_FOLDER}/${env.APP}.yaml
+
+                  config=\$(yq e ".spec.source.helm.values" deployment/clusters/${env.CLUSTER_FOLDER}/${env.APP}.yaml | yq e '(.image.tag = "")' -) yq e -i '.spec.source.helm.values=strenv(config)' deployment/clusters/${env.CLUSTER_FOLDER}/${env.APP}.yaml
+
+                  echo "AFTER UPDATE"
+                  cat deployment/clusters/${env.CLUSTER_FOLDER}/${env.APP}.yaml
+
+                  git add deployment/clusters/${env.CLUSTER_FOLDER}/${env.APP}.yaml
+                  commit=\$(git commit -m "[${env.BUILD_NUMBER}] -> ${env.APP}:${env.GIT_COMMIT}" || echo "No git commit needed")
                   result=\$(echo "Everything up-to-date" && git push https://$GIT_USERNAME:$GIT_PASSWORD@github.com/plentific/devops-cd.git HEAD:master || echo "Failed to push")
-                  
+
+                  echo "AFTER TRY PUSH TO GIT"
+                  cat deployment/clusters/${env.CLUSTER_FOLDER}/${env.APP}.yaml
+
                   if [ "\$result" == "Everything up-to-date" ]; then
                     echo "Everything up-to-date"
                     break
                   fi
+
                   if [ "\$commit" == "No git commit needed" ]; then
                     echo "No git commit needed"
                     break
                   fi
+
                   sleep 3;
                 done;
+
                 if ! \$success; then
                   echo "Gave up after \$attempts attempts";
                 fi
@@ -99,28 +112,15 @@ pipeline {
         container('agent') {
           script {
             sh """
-              unset AWS_WEB_IDENTITY_TOKEN_FILE
-              unset AWS_ROLE_ARN
-              success=0; attempts=0;
-              until \$success || [ \$attempts = 150 ]; do
-                  let ++attempts;
-                  check=\$(kubectl get statefulset -l app=${env.APP},deploy-commit=${env.GIT_COMMIT} -n airflow);
-                  if [ "\$check" != "" ]; then
-                      echo "statefulset exist, continue waiting for correct run";
-                      success=1;
-                      break;
-                  else
-                      echo "WAIT \$attempts";
-                      sleep 6;
-                  fi
-              done;
-              if [ \$success = 0 ] ; then
-                  echo "Gave up after \$attempts attempts";
-                  exit 125
-              else
-                  sleep 60;
-                  kubectl wait --for=condition=ready --timeout=600s pod -l 'app=${env.APP},statefulset.kubernetes.io/pod-name=${env.APP}-0' -n airflow
-              fi
+              set +x
+              kubectl --context ${env.CLUSTER} apply -f deployment/clusters/${env.CLUSTER_FOLDER}/${env.APP}.yaml -n argocd
+
+              export ARGOCD_USERNAME=$ARGOCD_USERNAME
+              export ARGOCD_AUTH_TOKEN=$ARGOCD_AUTH_TOKEN
+              export ARGOCD_SERVER=$ARGOCD_SERVER
+
+              argocd app terminate-op ${env.DEPLOY_ENV}-${job}${env.ENV_NUM} && echo "Terminate currenc sync for ${env.DEPLOY_ENV}-${job}${env.ENV_NUM} app" || echo "Don't need terminate ${env.DEPLOY_ENV}-${job}${env.ENV_NUM} app"
+              argocd app sync ${env.DEPLOY_ENV}-${job}${env.ENV_NUM} --force --prune --async &&  echo "Run sync ${env.DEPLOY_ENV}-${job}${env.ENV_NUM} application" || echo "Don't need sync ${env.DEPLOY_ENV}-${job}${env.ENV_NUM} app"
             """
           }
         }
