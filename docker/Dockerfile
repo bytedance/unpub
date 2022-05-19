@@ -1,16 +1,6 @@
-FROM alpine/git:latest as git
-
-ARG GIT_REPO=https://github.com/plentific/unpub
-
-WORKDIR /tmp
-
-RUN git clone $GIT_REPO /tmp
-RUN ls -la
-
-
 FROM google/dart:2.15.1
 
-COPY --from=git /tmp /app
+COPY . /app
 
 COPY entrypoint.sh /app/entrypoint.sh
 
