@@ -73,7 +73,7 @@ pipeline {
                   echo "BEFORE UPDATE"
                   cat deployment/clusters/${env.CLUSTER_FOLDER}/${env.APP}.yaml
 
-                  config=\$(yq e ".spec.source.helm.values" deployment/clusters/${env.CLUSTER_FOLDER}/${env.APP}.yaml | yq e '(.image.tag = "")' -) yq e -i '.spec.source.helm.values=strenv(config)' deployment/clusters/${env.CLUSTER_FOLDER}/${env.APP}.yaml
+                  config=\$(yq e ".spec.source.helm.values" deployment/clusters/${env.CLUSTER_FOLDER}/${env.APP}.yaml | yq e '(.image.tag = "dart-${env.GIT_COMMIT}")' -) yq e -i '.spec.source.helm.values=strenv(config)' deployment/clusters/${env.CLUSTER_FOLDER}/${env.APP}.yaml
 
                   echo "AFTER UPDATE"
                   cat deployment/clusters/${env.CLUSTER_FOLDER}/${env.APP}.yaml
