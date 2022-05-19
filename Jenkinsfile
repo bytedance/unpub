@@ -40,11 +40,11 @@ pipeline {
         container('kaniko') {
           sh """
             /kaniko/executor \
-              -f `pwd`/airflow/Dockerfile \
-              -c `pwd`/airflow \
+              -f `pwd`/docker/Dockerfile \
+              -c `pwd` \
               --cache=false \
               --cache-repo=${env.ECRURI}/kaniko \
-              --destination=${env.ECRURI}/${env.APP}:airflow-${env.GIT_COMMIT}
+              --destination=${env.ECRURI}/${env.APP}:${env.GIT_COMMIT}
           """
         }
       }
