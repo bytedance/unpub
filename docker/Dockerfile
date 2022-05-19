@@ -2,7 +2,7 @@ FROM google/dart:2.15.1
 
 COPY . /app
 
-COPY entrypoint.sh /app/entrypoint.sh
+COPY docker/entrypoint.sh /app/entrypoint.sh
 
 RUN chmod +x /app/entrypoint.sh
 
