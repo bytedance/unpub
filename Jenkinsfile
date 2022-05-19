@@ -44,7 +44,7 @@ pipeline {
               -c `pwd` \
               --cache=false \
               --cache-repo=${env.ECRURI}/kaniko \
-              --destination=${env.ECRURI}/${env.APP}:${env.GIT_COMMIT}
+              --destination=${env.ECRURI}/${env.APP}:dart-${env.GIT_COMMIT}
           """
         }
       }
