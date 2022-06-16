@@ -51,6 +51,22 @@ main(List<String> args) async {
 | `googleapisProxy` | Http(s) proxy to call googleapis (to get uploader email) | - |
 | `uploadValidator` | See [Package validator](#package-validator) | - |
 
+
+### Usage behind reverse-proxy
+
+Using unpub behind reverse proxy(nginx or another), ensure you have necessary headers
+```sh
+proxy_set_header X-Forwarded-Host $host;
+proxy_set_header X-Forwarded-Server $host;
+proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+proxy_set_header X-Forwarded-Proto $scheme;
+
+# Workaround for: 
+# Asynchronous error HttpException: 
+# Trying to set 'Transfer-Encoding: Chunked' on HTTP 1.0 headers
+proxy_http_version 1.1;
+```
+
 ### Package validator
 
 Naming conflicts is a common issue for private registry. A reasonable solution is to add prefix to reduce conflict probability.
