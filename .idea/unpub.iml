@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <excludeFolder url="file://$MODULE_DIR$/unpub/test/fixtures/package_0/0.0.1/build" />
+      <excludeFolder url="file://$MODULE_DIR$/unpub/test/fixtures/package_0/0.0.1/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/unpub/test/fixtures/package_0/0.0.1/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/unpub/build" />
+      <excludeFolder url="file://$MODULE_DIR$/unpub/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/unpub/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/unpub_web/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/unpub_web/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/unpub_web/build" />
+      <excludeFolder url="file://$MODULE_DIR$/unpub/test/fixtures/package_0/0.0.2/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/unpub/test/fixtures/package_0/0.0.2/build" />
+      <excludeFolder url="file://$MODULE_DIR$/unpub/test/fixtures/package_0/0.0.2/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/unpub/test/fixtures/package_0/0.0.3+1/build" />
+      <excludeFolder url="file://$MODULE_DIR$/unpub/test/fixtures/package_0/0.0.3+1/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/unpub/test/fixtures/package_0/0.0.3+1/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/unpub/lib/unpub_api/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/unpub/lib/unpub_api/build" />
+      <excludeFolder url="file://$MODULE_DIR$/unpub/lib/unpub_api/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/unpub/test/fixtures/package_0/1.0.0/build" />
+      <excludeFolder url="file://$MODULE_DIR$/unpub/test/fixtures/package_0/1.0.0/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/unpub/test/fixtures/package_0/1.0.0/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/unpub/test/fixtures/package_0/0.0.3/build" />
+      <excludeFolder url="file://$MODULE_DIR$/unpub/test/fixtures/package_0/0.0.3/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/unpub/test/fixtures/package_0/0.0.3/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/unpub/test/fixtures/package_0/1.0.0-noreadme/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/unpub/test/fixtures/package_0/1.0.0-noreadme/build" />
+      <excludeFolder url="file://$MODULE_DIR$/unpub/test/fixtures/package_0/1.0.0-noreadme/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/unpub_aws/build" />
+      <excludeFolder url="file://$MODULE_DIR$/unpub_aws/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/unpub_aws/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/unpub/test/fixtures/package_1/0.0.1/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/unpub/test/fixtures/package_1/0.0.1/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/unpub/test/fixtures/package_1/0.0.1/build" />
+      <excludeFolder url="file://$MODULE_DIR$/unpub_auth/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/unpub_auth/build" />
+      <excludeFolder url="file://$MODULE_DIR$/unpub_auth/.dart_tool" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+</module>

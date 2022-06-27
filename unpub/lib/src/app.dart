@@ -117,7 +117,7 @@ class App {
     return info.email!;
   }
 
-  Future<HttpServer> serve([String? host = '0.0.0.0', int port = 4000]) async {
+  Future<HttpServer> serve([String host = '0.0.0.0', int port = 4000]) async {
     var handler = const shelf.Pipeline()
         .addMiddleware(corsHeaders())
         .addMiddleware(shelf.logRequests())
