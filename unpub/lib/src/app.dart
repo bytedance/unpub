@@ -315,10 +315,18 @@ class App {
 
       // TODO: Upload docs
       return shelf.Response.found(
-          _resolveUrl(req, '/api/packages/versions/newUploadFinish'));
+        _resolveUrl(
+          req,
+          '/api/packages/versions/newUploadFinish',
+        ),
+      );
     } catch (err) {
-      return shelf.Response.found(_resolveUrl(
-          req, '/api/packages/versions/newUploadFinish?error=$err'));
+      return shelf.Response.found(
+        _resolveUrl(
+          req,
+          '/api/packages/versions/newUploadFinish?error=$err',
+        ),
+      );
     }
   }
 
@@ -426,10 +434,9 @@ class App {
           semver.Version.parse(b), semver.Version.parse(a));
     });
 
-    return _okWithJson({
-      'name': name,
-      'versions': versions,
-    });
+    final foo = package.toJson();
+
+    return _okWithJson(foo);
   }
 
   @Route.get('/webapi/package/<name>/<version>')

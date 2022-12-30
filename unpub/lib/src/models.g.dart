@@ -32,7 +32,7 @@ Map<String, dynamic> _$UnpubVersionToJson(UnpubVersion instance) {
   writeNotNull('uploader', instance.uploader);
   writeNotNull('readme', instance.readme);
   writeNotNull('changelog', instance.changelog);
-  writeNotNull('createdAt', identity(instance.createdAt));
+  writeNotNull('createdAt', dateToIsoString(instance.createdAt));
   return val;
 }
 
@@ -54,8 +54,8 @@ Map<String, dynamic> _$UnpubPackageToJson(UnpubPackage instance) =>
       'versions': instance.versions,
       'private': instance.private,
       'uploaders': instance.uploaders,
-      'createdAt': identity(instance.createdAt),
-      'updatedAt': identity(instance.updatedAt),
+      'createdAt': dateToIsoString(instance.createdAt),
+      'updatedAt': dateToIsoString(instance.updatedAt),
       'download': instance.download,
     };
 
