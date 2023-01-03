@@ -4,6 +4,7 @@ import 'package:googleapis/oauth2/v2.dart';
 import 'package:http/io_client.dart';
 import 'package:unpub/src/oauth_provider.dart';
 import 'package:http/http.dart' as http;
+import 'package:shelf/shelf.dart' as shelf;
 
 class GoogleOAuthProvider extends OAuthProvider {
   GoogleOAuthProvider({
@@ -52,5 +53,14 @@ class GoogleOAuthProvider extends OAuthProvider {
     );
     if (info.email == null) throw 'failed to get google account email';
     return info.email!;
+  }
+
+  @override
+  Future<shelf.Response?> shouldAllowRequest(shelf.Request req) async {
+    // check what url was requested
+    // req.requestedUri
+
+    // allow all requests
+    return null;
   }
 }

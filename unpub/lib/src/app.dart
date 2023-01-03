@@ -66,8 +66,10 @@ class App {
         'success': {'message': message}
       });
 
-  static shelf.Response _badRequest(String message,
-          {int status = HttpStatus.badRequest}) =>
+  static shelf.Response _badRequest(
+    String message, {
+    int status = HttpStatus.badRequest,
+  }) =>
       shelf.Response(
         status,
         headers: {HttpHeaders.contentTypeHeader: ContentType.json.mimeType},
@@ -91,7 +93,15 @@ class App {
     var handler = const shelf.Pipeline()
         .addMiddleware(corsHeaders())
         .addMiddleware(shelf.logRequests())
-        .addHandler((req) async {
+        .addMiddleware((shelf.Handler handler) {
+      return (shelf.Request request) async {
+        final shouldNotAllow = await oAuthProvider.shouldAllowRequest(request);
+        if (shouldNotAllow != null) {
+          return shouldNotAllow;
+        }
+        return handler(request);
+      };
+    }).addHandler((req) async {
       // Return 404 by default
       // https://github.com/google/dart-neats/issues/1
       var res = await router.call(req);
@@ -126,7 +136,12 @@ class App {
 
     if (package == null) {
       return shelf.Response.found(
-          Uri.parse(upstream).resolve('/api/packages/$name').toString());
+        Uri.parse(upstream)
+            .resolve(
+              '/api/packages/$name',
+            )
+            .toString(),
+      );
     }
 
     package.versions.sort((a, b) {
