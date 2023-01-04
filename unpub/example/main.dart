@@ -8,6 +8,7 @@ main(List<String> args) async {
   final app = unpub.App(
     metaStore: unpub.MongoStore(db),
     packageStore: unpub.FileStore('./unpub-packages'),
+    oAuthProvider: unpub.GoogleOAuthProvider()
   );
 
   final server = await app.serve('0.0.0.0', 4000);

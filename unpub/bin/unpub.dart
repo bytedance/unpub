@@ -33,7 +33,7 @@ main(List<String> args) async {
   var app = unpub.App(
     metaStore: unpub.MongoStore(db),
     packageStore: unpub.FileStore(baseDir),
-    proxy_origin: proxy_origin.trim().isEmpty ? null : Uri.parse(proxy_origin)
+    oAuthProvider: unpub.GoogleOAuthProvider(proxyOrigin: proxy_origin.trim().isEmpty ? null : Uri.parse(proxy_origin))
   );
 
   var server = await app.serve(host, port);
